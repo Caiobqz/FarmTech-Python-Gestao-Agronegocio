@@ -6,15 +6,43 @@ nos demais módulos.
 
 
 def ler_float_positivo(mensagem):
-    """TODO: ler um número decimal maior que zero sem encerrar o programa."""
-    raise NotImplementedError
+    """Lê um número decimal maior que zero."""
+
+    while True:
+        try:
+            valor = float(input(mensagem))
+
+            if valor <= 0:
+                print("O valor deve ser maior que zero.")
+            else:
+                return valor
+
+        except ValueError:
+            print("Ops, isso não é um valor numérico.")
 
 
 def ler_inteiro_positivo(mensagem):
-    """TODO: ler um número inteiro maior que zero sem encerrar o programa."""
-    raise NotImplementedError
+    """Lê um número inteiro maior que zero."""
 
+    while True:
+        try:
+            valor = int(input(mensagem))
+
+            if valor <= 0:
+                print("O valor deve ser maior que zero.")
+            else:
+                return valor
+
+        except ValueError:
+            print("Ops, isso não é um valor numérico.")
 
 def ler_texto_obrigatorio(mensagem):
-    """TODO: impedir texto vazio."""
-    raise NotImplementedError
+    """Lê um texto obrigatório (não vazio)."""
+
+    while True:
+        texto = input(mensagem).strip()
+
+        if not texto:
+            print("O valor não pode ser vazio.")
+        else:
+            return texto
