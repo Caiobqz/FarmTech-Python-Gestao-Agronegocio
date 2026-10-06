@@ -287,7 +287,7 @@ Antes da entrega:
 - [x] saídas são legíveis;
 - [x] nenhuma credencial real está no repositório;
 - [x] teste final em instalação limpa/outra máquina;
-- [ ] versão final identificada para entrega.
+- [x] versão final definida para entrega: tag `v1.0-entrega`.
 
 ---
 
@@ -302,8 +302,8 @@ Antes da entrega:
 | Oracle | Cleidimar | ✅ Implementado e validado em conexão real |
 | Integração | Caio / Grupo | ✅ Concluída |
 | Testes do fluxo principal | Grupo | ✅ Concluídos, incluindo clone limpo e Oracle real |
-| README final | Grupo | 🟡 Em revisão |
-| Revisão da entrega | Grupo | 🟡 Em andamento |
+| README final | Grupo | ✅ Concluído |
+| Revisão da entrega | Grupo | ✅ Concluída |
 
 ---
 
@@ -318,7 +318,7 @@ Antes da entrega:
 
 ## 14. Entrega
 
-A versão existente na `main` no momento da entrega será tratada como a versão oficial.
+A versão oficial da entrega será identificada pela tag `v1.0-entrega`, criada sobre a `main` após o fechamento desta revisão.
 
 Após a entrega, o grupo deve evitar alterações nessa versão para preservar exatamente o código avaliado.
 
