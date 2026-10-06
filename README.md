@@ -4,78 +4,78 @@ Projeto acadêmico da FIAP para a atividade **Gestão do Agronegócio em Python 
 
 > **Prazo da atividade:** 14/10/2026  
 > **Formato:** trabalho em grupo  
-> **Objetivo deste repositório:** concentrar a versão oficial da entrega e deixar explícito o que cada integrante precisa desenvolver, testar e revisar.
+> **Objetivo deste repositório:** concentrar a versão oficial da entrega e documentar claramente o problema, a solução, os requisitos atendidos e a forma de execução.
 
 ---
 
 ## 1. Problema escolhido
 
-O projeto propõe um **sistema de gerenciamento de áreas agrícolas** para ajudar no registro e acompanhamento de dados importantes de uma plantação.
+O projeto propõe um **sistema de gerenciamento de áreas agrícolas** para ajudar no registro e acompanhamento de informações importantes de uma plantação.
 
-A solução permitirá cadastrar áreas/talhões e armazenar informações como:
+A solução permite cadastrar áreas/talhões e armazenar:
 
 - nome da área;
 - cultura;
 - tamanho em hectares;
-- pH;
+- pH do solo;
 - nitrogênio (N);
 - fósforo (P);
 - potássio (K);
 - observações do produtor.
 
-O sistema também deverá permitir consultar, atualizar, excluir e exportar esses registros.
+O sistema também permite consultar, atualizar, excluir, salvar, carregar e exportar esses registros.
 
 ### Por que esse problema?
 
-No agronegócio, informações de cultivo podem ficar espalhadas em anotações, planilhas e registros isolados. O projeto busca centralizar esses dados em uma aplicação simples em Python, aplicando diretamente os conteúdos estudados na disciplina.
+No agronegócio, informações de cultivo podem ficar espalhadas em anotações, planilhas e registros isolados. A proposta do projeto é centralizar esses dados em uma aplicação simples em Python, facilitando a organização das informações e demonstrando os conteúdos estudados nos capítulos 3 a 6.
 
 ---
 
 ## 2. Requisitos obrigatórios da atividade
 
-O projeto deve demonstrar de forma clara:
-
-- [ ] Funções e procedimentos com passagem de parâmetros
-- [ ] Lista
-- [ ] Tupla
-- [ ] Dicionário
-- [ ] Tabela de memória
-- [ ] Manipulação de arquivo TXT
-- [ ] Manipulação de arquivo JSON
-- [ ] Conexão com banco de dados Oracle
-- [ ] Validação dos dados digitados pelo usuário
-- [ ] Saídas organizadas e fáceis de entender
-- [ ] README explicando claramente o problema do agronegócio e a solução
-- [ ] Código final disponível no GitHub
+| Requisito | Como aparece no projeto | Status |
+|---|---|---|
+| Funções/procedimentos com parâmetros | Funções distribuídas pelos módulos em `src/` | ✅ |
+| Lista | Lista `registros` mantém as áreas em memória | ✅ |
+| Tupla | `CULTURAS_PERMITIDAS`, `CAMPOS_RELATORIO` e `CAMPOS_AREA` | ✅ |
+| Dicionário | Cada área agrícola é representada por um dicionário | ✅ |
+| Tabela de memória | Lista de dicionários usada durante a execução | ✅ |
+| Arquivo TXT | Relatório em `dados/relatorio.txt` | ✅ |
+| Arquivo JSON | Persistência em `dados/registros.json` | ✅ |
+| Conexão Oracle | Implementada em `src/banco_oracle.py` | 🟡 Aguardando validação com conta FIAP desbloqueada |
+| Validação das entradas | `src/validacoes.py` | ✅ |
+| Saídas legíveis | Menu, listagens e relatório formatados | ✅ |
+| README com problema e solução | Este documento | ✅ |
+| Código no GitHub | Repositório oficial do grupo | ✅ |
 
 ---
 
-## 3. Funcionalidades planejadas
+## 3. Funcionalidades atuais
 
-O menu principal deverá seguir aproximadamente este fluxo:
+O menu principal disponível em `main.py` é:
 
 ```text
-====================================
-       FARMTECH SOLUTIONS
-====================================
-
-1 - Cadastrar área agrícola
-2 - Listar áreas
-3 - Consultar área
-4 - Atualizar área
-5 - Excluir área
-6 - Registrar dados agrícolas
-7 - Exportar relatório TXT
-8 - Salvar/carregar dados JSON
-9 - Sincronizar/consultar Oracle
-0 - Sair
+==========================================
+          FARMTECH SOLUTIONS
+==========================================
+1  - Cadastrar área agrícola
+2  - Listar áreas
+3  - Consultar área por ID
+4  - Atualizar área
+5  - Excluir área
+6  - Salvar dados em JSON
+7  - Carregar dados do JSON
+8  - Exportar relatório TXT
+9  - Enviar registros ao Oracle
+10 - Consultar registros do Oracle
+0  - Sair
 ```
 
-O menu poderá ser ajustado durante o desenvolvimento, desde que os requisitos da atividade continuem claros.
+As opções 1 a 8 e 0 foram validadas manualmente. As opções 9 e 10 estão implementadas, mas a validação real do banco Oracle depende da conta institucional da FIAP estar desbloqueada e com credenciais válidas.
 
 ---
 
-## 4. Estrutura planejada
+## 4. Estrutura do projeto
 
 ```text
 FarmTech-Python-Gestao-Agronegocio/
@@ -101,15 +101,18 @@ FarmTech-Python-Gestao-Agronegocio/
 ├── database/
 │   └── criar_tabelas.sql
 │
-└── docs/
-    └── PLANO_DE_TRABALHO.md
+├── docs/
+│   └── PLANO_DE_TRABALHO.md
+│
+├── teste_arquivos.py
+└── teste_oracle.py
 ```
 
 ---
 
-## 5. Como os dados serão representados
+## 5. Estruturas de dados utilizadas
 
-Durante a execução, os registros poderão ser armazenados em uma **lista de dicionários**.
+Durante a execução, as áreas são armazenadas em uma **lista de dicionários**, funcionando como uma tabela temporária em memória.
 
 Exemplo conceitual:
 
@@ -122,20 +125,21 @@ Exemplo conceitual:
     "ph": 6.2,
     "nitrogenio": 30,
     "fosforo": 20,
-    "potassio": 40
+    "potassio": 40,
+    "observacoes": ""
 }
 ```
 
-### Onde cada estrutura entra
+### Uso de cada estrutura
 
-- **Lista:** conjunto de áreas cadastradas.
-- **Dicionário:** dados de cada área.
-- **Tupla:** opções fixas ou valores que não devem ser alterados durante a execução.
-- **Tabela de memória:** organização temporária dos registros durante a execução do programa.
+- **Lista:** conjunto de áreas cadastradas durante a execução.
+- **Dicionário:** representa cada área agrícola e seus campos.
+- **Tupla:** utilizada para valores fixos, como culturas permitidas e nomes de campos.
+- **Tabela de memória:** organização temporária formada pela lista de dicionários manipulada pelo sistema.
 
 ---
 
-## 6. Divisão inicial do grupo
+## 6. Integrantes e responsabilidades
 
 | Integrante | Responsabilidade principal |
 |---|---|
@@ -145,116 +149,116 @@ Exemplo conceitual:
 | Juliana | Arquivos TXT e JSON |
 | Cleidimar | Banco de dados Oracle |
 
-> Todos devem entender o funcionamento geral. A divisão é de responsabilidade principal, não de isolamento.
+A divisão indica a responsabilidade principal de cada integrante, mas todos devem compreender o funcionamento geral da solução.
 
 ---
 
-## 7. Ordem correta de desenvolvimento
+## 7. Como executar o projeto
 
-1. **Preparar o ambiente e clonar o projeto.**
-2. **Criar uma branch para a tarefa.**
-3. **Implementar cadastro e estruturas de dados.**
-4. **Implementar consulta, atualização e exclusão.**
-5. **Implementar validações.**
-6. **Implementar persistência em JSON.**
-7. **Implementar relatório TXT.**
-8. **Implementar banco Oracle.**
-9. **Integrar todos os módulos.**
-10. **Testar entradas corretas e incorretas.**
-11. **Revisar o README e a documentação.**
-12. **Fazer a revisão final antes da entrega.**
-
-O detalhamento de cada etapa está em [docs/PLANO_DE_TRABALHO.md](docs/PLANO_DE_TRABALHO.md).
-
----
-
-## 8. Como começar
-
-### Clonar
+### 7.1 Clonar o repositório
 
 ```bash
 git clone https://github.com/Caiobqz/FarmTech-Python-Gestao-Agronegocio.git
 cd FarmTech-Python-Gestao-Agronegocio
 ```
 
-### Atualizar antes de trabalhar
+### 7.2 Instalar as dependências
 
 ```bash
-git checkout main
-git pull
+python -m pip install -r requirements.txt
 ```
 
-### Criar uma branch
-
-Exemplo:
+### 7.3 Executar a aplicação
 
 ```bash
-git checkout -b feature/cadastro
+python main.py
 ```
-
-### Enviar alterações
-
-```bash
-git add .
-git commit -m "Implementa cadastro de areas agricolas"
-git push origin feature/cadastro
-```
-
-Depois, abrir um **Pull Request** para a `main`.
-
-Mais regras estão em [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-## 9. Regra principal do Git
+## 8. Configuração do Oracle
 
-**Não desenvolver diretamente na `main`.**
+O projeto usa variáveis de ambiente para evitar que credenciais sejam publicadas no GitHub.
 
-Fluxo esperado:
+Copie o arquivo de exemplo:
+
+### Windows PowerShell
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Depois preencha localmente:
+
+```env
+ORACLE_USER=seu_usuario
+ORACLE_PASSWORD=sua_senha
+ORACLE_DSN=seu_dsn
+```
+
+**Nunca envie o arquivo `.env` para o GitHub.**
+
+O script de criação da tabela está em:
 
 ```text
-main
- ↓
-branch da tarefa
- ↓
-desenvolvimento
- ↓
-teste
- ↓
-commit
- ↓
-push
- ↓
-Pull Request
- ↓
-revisão
- ↓
-merge na main
+database/criar_tabelas.sql
 ```
+
+O teste de conexão pode ser executado com:
+
+```bash
+python teste_oracle.py
+```
+
+### Situação atual do Oracle
+
+O código de conexão, inserção, consulta e tratamento de erros está implementado. Durante os testes, o servidor Oracle respondeu, porém a conta institucional usada ficou bloqueada (`ORA-28000`). Por isso, a integração ainda precisa ser validada novamente após o desbloqueio da conta.
 
 ---
 
-## 10. Testes obrigatórios
+## 9. Arquivos JSON e TXT
 
-O grupo deve testar pelo menos:
+### JSON
 
-### Entradas corretas
+A opção **6** salva os registros atuais em:
 
-- área válida;
-- cultura válida;
-- números válidos;
-- ID existente.
+```text
+dados/registros.json
+```
 
-### Entradas incorretas
+A opção **7** carrega os registros novamente para a memória.
 
-- letras onde deveria haver número;
-- número negativo;
-- opção de menu inexistente;
-- ID inexistente;
-- JSON ausente;
-- Oracle indisponível.
+### TXT
 
-O programa não deve encerrar inesperadamente por causa de uma entrada inválida.
+A opção **8** gera um relatório legível em:
+
+```text
+dados/relatorio.txt
+```
+
+Os arquivos são tratados pelo módulo `src/arquivos.py`.
+
+---
+
+## 10. Testes realizados
+
+O fluxo principal foi testado manualmente com sucesso:
+
+- cadastro de múltiplas áreas;
+- validação de cultura por número;
+- rejeição de pH acima de 14;
+- listagem;
+- consulta por ID;
+- atualização parcial;
+- exclusão;
+- salvamento em JSON;
+- carregamento do JSON;
+- exportação do relatório TXT;
+- tratamento de opção de menu inexistente;
+- encerramento normal;
+- falha de conexão Oracle tratada sem encerrar o programa.
+
+Também existe `teste_arquivos.py`, com verificações de salvamento, carregamento, arquivo ausente, JSON inválido, lista vazia, acentuação e geração do TXT.
 
 ---
 
@@ -262,24 +266,25 @@ O programa não deve encerrar inesperadamente por causa de uma entrada inválida
 
 Antes da entrega:
 
-- [ ] programa inicia;
-- [ ] menu funciona;
-- [ ] cadastro funciona;
-- [ ] consulta funciona;
-- [ ] atualização funciona;
-- [ ] exclusão funciona;
-- [ ] lista é utilizada;
-- [ ] tupla é utilizada;
-- [ ] dicionário é utilizado;
-- [ ] funções recebem parâmetros;
-- [ ] TXT funciona;
-- [ ] JSON funciona;
-- [ ] Oracle funciona;
-- [ ] entradas inválidas são tratadas;
-- [ ] README está atualizado;
-- [ ] nenhum login, senha ou segredo está no GitHub;
-- [ ] todos os arquivos necessários estão versionados;
-- [ ] versão final foi testada em uma máquina do grupo.
+- [x] programa inicia;
+- [x] menu funciona;
+- [x] cadastro funciona;
+- [x] consulta funciona;
+- [x] atualização funciona;
+- [x] exclusão funciona;
+- [x] lista é utilizada;
+- [x] tupla é utilizada;
+- [x] dicionário é utilizado;
+- [x] tabela de memória está representada;
+- [x] funções recebem parâmetros;
+- [x] TXT funciona;
+- [x] JSON funciona;
+- [ ] Oracle validado com conexão real;
+- [x] entradas inválidas são tratadas;
+- [x] saídas são legíveis;
+- [x] nenhuma credencial real está no repositório;
+- [ ] teste final em instalação limpa/outra máquina;
+- [ ] versão final identificada para entrega.
 
 ---
 
@@ -287,23 +292,32 @@ Antes da entrega:
 
 | Etapa | Responsável | Status |
 |---|---|---|
-| Estrutura inicial | Caio | ✅ Preparada |
-| Cadastro | Paulo Vitor | ⬜ Não iniciado |
-| Consulta/Atualização/Exclusão | Kauê Araujo | ⬜ Não iniciado |
-| TXT e JSON | Juliana | ⬜ Não iniciado |
-| Oracle | Cleidimar | ⬜ Não iniciado |
-| Integração | Grupo | ⬜ Não iniciado |
-| Testes | Grupo | ⬜ Não iniciado |
-| README final | Grupo | 🟡 Em evolução |
-| Revisão da entrega | Grupo | ⬜ Não iniciado |
+| Estrutura inicial | Caio | ✅ Concluída |
+| Cadastro | Paulo Vitor | ✅ Concluído |
+| Consulta/Atualização/Exclusão | Kauê Araujo | ✅ Concluído |
+| TXT e JSON | Juliana | ✅ Concluído |
+| Oracle | Cleidimar | 🟡 Implementado, aguardando validação real |
+| Integração | Caio / Grupo | ✅ Concluída |
+| Testes do fluxo principal | Grupo | ✅ Concluídos |
+| README final | Grupo | 🟡 Em revisão |
+| Revisão da entrega | Grupo | 🟡 Em andamento |
 
 ---
 
-## 13. Entrega
+## 13. Segurança
 
-A versão existente na `main` no momento da entrega será tratada como a **versão oficial**.
+- O arquivo `.env` não deve ser versionado.
+- Usuários e senhas reais não devem ser colocados no código.
+- O repositório mantém apenas `.env.example`.
+- Antes da entrega, o grupo deve conferir `git status` e revisar os arquivos versionados.
 
-Após a entrega, o grupo deve evitar alterações na versão oficial para preservar exatamente o código avaliado.
+---
+
+## 14. Entrega
+
+A versão existente na `main` no momento da entrega será tratada como a versão oficial.
+
+Após a entrega, o grupo deve evitar alterações nessa versão para preservar exatamente o código avaliado.
 
 ---
 
