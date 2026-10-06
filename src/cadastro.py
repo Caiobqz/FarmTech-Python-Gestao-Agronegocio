@@ -29,7 +29,7 @@ def ler_cultura():
         for indice, cultura in enumerate(CULTURAS_PERMITIDAS, start=1):
             print(f"{indice} - {cultura}")
 
-        opcao = ler_inteiro_positivo("Escolha a cultura: ")
+        opcao = ler_inteiro_positivo("Digite o número da cultura: ")
 
         if opcao <= len(CULTURAS_PERMITIDAS):
             return CULTURAS_PERMITIDAS[opcao - 1]
