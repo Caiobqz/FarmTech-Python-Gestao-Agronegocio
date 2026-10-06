@@ -42,7 +42,7 @@ No agronegócio, informações de cultivo podem ficar espalhadas em anotações,
 | Tabela de memória | Lista de dicionários usada durante a execução | ✅ |
 | Arquivo TXT | Relatório em `dados/relatorio.txt` | ✅ |
 | Arquivo JSON | Persistência em `dados/registros.json` | ✅ |
-| Conexão Oracle | Implementada em `src/banco_oracle.py` | 🟡 Aguardando validação com conta FIAP desbloqueada |
+| Conexão Oracle | Implementada e validada em Oracle real via `src/banco_oracle.py` | ✅ |
 | Validação das entradas | `src/validacoes.py` | ✅ |
 | Saídas legíveis | Menu, listagens e relatório formatados | ✅ |
 | README com problema e solução | Este documento | ✅ |
@@ -71,7 +71,7 @@ O menu principal disponível em `main.py` é:
 0  - Sair
 ```
 
-As opções 1 a 8 e 0 foram validadas manualmente. As opções 9 e 10 estão implementadas, mas a validação real do banco Oracle depende da conta institucional da FIAP estar desbloqueada e com credenciais válidas.
+As opções 1 a 10 e 0 foram validadas manualmente. A integração Oracle foi testada em conexão real com inserção e consulta de registro.
 
 ---
 
@@ -212,7 +212,7 @@ python teste_oracle.py
 
 ### Situação atual do Oracle
 
-O código de conexão, inserção, consulta e tratamento de erros está implementado. Durante os testes, o servidor Oracle respondeu, porém a conta institucional usada ficou bloqueada (`ORA-28000`). Por isso, a integração ainda precisa ser validada novamente após o desbloqueio da conta.
+A conexão foi validada no Oracle SQL Developer e também pelo Python com `python teste_oracle.py`. O fluxo completo do `main.py` foi testado com sucesso: cadastro em memória, envio do registro ao Oracle pela opção 9 e consulta do mesmo registro pela opção 10.
 
 ---
 
@@ -256,7 +256,10 @@ O fluxo principal foi testado manualmente com sucesso:
 - exportação do relatório TXT;
 - tratamento de opção de menu inexistente;
 - encerramento normal;
-- falha de conexão Oracle tratada sem encerrar o programa.
+- falha de conexão Oracle tratada sem encerrar o programa;
+- conexão real com Oracle validada;
+- inserção de registro no Oracle validada;
+- consulta de registro no Oracle validada.
 
 Também existe `teste_arquivos.py`, com verificações de salvamento, carregamento, arquivo ausente, JSON inválido, lista vazia, acentuação e geração do TXT.
 
@@ -279,11 +282,11 @@ Antes da entrega:
 - [x] funções recebem parâmetros;
 - [x] TXT funciona;
 - [x] JSON funciona;
-- [ ] Oracle validado com conexão real;
+- [x] Oracle validado com conexão real;
 - [x] entradas inválidas são tratadas;
 - [x] saídas são legíveis;
 - [x] nenhuma credencial real está no repositório;
-- [ ] teste final em instalação limpa/outra máquina;
+- [x] teste final em instalação limpa/outra máquina;
 - [ ] versão final identificada para entrega.
 
 ---
@@ -296,9 +299,9 @@ Antes da entrega:
 | Cadastro | Paulo Vitor | ✅ Concluído |
 | Consulta/Atualização/Exclusão | Kauê Araujo | ✅ Concluído |
 | TXT e JSON | Juliana | ✅ Concluído |
-| Oracle | Cleidimar | 🟡 Implementado, aguardando validação real |
+| Oracle | Cleidimar | ✅ Implementado e validado em conexão real |
 | Integração | Caio / Grupo | ✅ Concluída |
-| Testes do fluxo principal | Grupo | ✅ Concluídos |
+| Testes do fluxo principal | Grupo | ✅ Concluídos, incluindo clone limpo e Oracle real |
 | README final | Grupo | 🟡 Em revisão |
 | Revisão da entrega | Grupo | 🟡 Em andamento |
 
